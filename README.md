@@ -13,7 +13,7 @@ Este proyecto es una herramienta web simple para generar **firmas de correo elec
 - Posibilidad de **copiar la firma** lista para pegar en clientes como Outlook.
 
 ## 🖥️ Uso
-1. Abre el proyecto en [GitHub Pages](https://TU-USUARIO.github.io//) _(cuando lo publiques)_.
+1. Abre el proyecto en [GitHub Pages]([https://TU-USUARIO.github.io//](https://soporteimf.github.io/firma-corporativa-imporfil/) _(cuando lo publiques)_.
 2. Completa el formulario con tus datos.
 3. Presiona **"Generar Firma"** para previsualizar el bloque de firma.
 4. Presiona **"Copiar Firma"** para pegarla directamente en tu cliente de correo.
