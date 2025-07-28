@@ -1,6 +1,6 @@
 # ✉️ Generador de Firmas Electrónicas – Imporfil
 
-Este proyecto es una herramienta web diseñada para generar **firmas de correo electrónico corporativas** de forma rápida y estandarizada para el personal de **Imporfil (una compañía de RelaDyne)**.
+Este proyecto es una herramienta web diseñada para generar **firmas de correo electrónico corporativas** de forma rápida y estandarizada para el personal de **Imporfil**.
 
 ---
 
@@ -12,8 +12,8 @@ Este proyecto es una herramienta web diseñada para generar **firmas de correo e
   - Correo electrónico
   - Teléfonos (celular y oficina)
   - Dirección completa
-- Generación automática de un bloque **HTML listo para copiar**.
-- Botón para **copiar la firma** fácilmente y pegarla en clientes como Outlook.
+- Generación automática de un bloque **listo para copiar**.
+- Botón para **copiar la firma** fácilmente y pegarla en Outlook.
 
 ---
 
