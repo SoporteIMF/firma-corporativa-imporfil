@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Generador de Firma - Imporfil</title>
+<style>
+    body { font-family: Verdana, sans-serif; background:#f5f5f5; margin:0; padding:20px; }
+    h2 { text-align:center; color:#4472C4; }
+    form { 
+        background: #fff; 
+        max-width: 700px; 
+        margin: 20px auto; 
+        padding: 20px; 
+        border-radius: 8px; 
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    label { display:block; font-weight:bold; color:#333; font-size: 0.9em; margin-bottom:5px; }
+    input {
+        width: 100%;
+        padding: 10px;
+        font-size: 1em;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    input:focus {
+        border-color: #4472C4;
+        outline: none;
+        box-shadow: 0 0 5px rgba(68,114,196,0.3);
+    }
+    .botones {
+        grid-column: span 2;
+        text-align: center;
+    }
+    button { 
+        background: #4472C4; 
+        color: white; 
+        border: none; 
+        padding: 10px 20px; 
+        margin: 10px 5px;
+        border-radius: 5px; 
+        cursor: pointer; 
+        font-size: 1em;
+    }
+    button:hover { background: #365e9c; }
+    #firma-preview {
+        background:#fff;
+        border:1px solid #ccc;
+        padding:15px;
+        margin:20px auto;
+        max-width:700px;
+        border-radius:8px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    }
+</style>
+</head>
+<body>
+<h2>Generador de Firma Imporfil</h2>
+
+<form id="formulario">
+    <div>
+        <label>Nombre:</label>
+        <input type="text" id="nombre" required>
+    </div>
+    <div>
+        <label>Puesto:</label>
+        <input type="text" id="puesto" required>
+    </div>
+    <div>
+        <label>Correo:</label>
+        <input type="email" id="correo" required>
+    </div>
+    <div>
+        <label>Celular:</label>
+        <input type="text" id="celular" required>
+    </div>
+    <div>
+        <label>Teléfono de Oficina:</label>
+        <input type="text" id="oficina">
+    </div>
+    <div>
+        <label>Calle y Número :</label>
+        <input type="text" id="calle" required>
+    </div>
+    <div>
+        <label>Colonia:</label>
+        <input type="text" id="colonia" required>
+    </div>
+    <div>
+        <label>Municipio:</label>
+        <input type="text" id="municipio" required>
+    </div>
+    <div>
+        <label>Estado:</label>
+        <input type="text" id="estado" required>
+    </div>
+    <div>
+        <label>Código Postal:</label>
+        <input type="text" id="cp" required>
+    </div>
+    <div class="botones">
+        <button type="button" onclick="generarFirma()">Generar Firma</button>
+        <button type="button" onclick="copiarFirma()">Copiar Firma</button>
+    </div>
+</form>
+
+<div id="firma-preview"></div>
+
+<script>
+
+function generarFirma() {
+    let nombre = document.getElementById("nombre").value;
+    let puesto = document.getElementById("puesto").value;
+	let correo = document.getElementById("correo").value;
+
+
+    let calle = document.getElementById("calle").value;
+    let colonia = document.getElementById("colonia").value;
+    let municipio = document.getElementById("municipio").value;
+    let estado = document.getElementById("estado").value;
+    let cp = document.getElementById("cp").value;
+	
+    // CELULAR
+    let celularInput = document.getElementById("celular").value.trim();
+    let celular = celularInput.length > 0 ? formatearTelefono(celularInput) : "";
+    let celularLine = celular.length > 0 ? `Celular: <span style="color:#4472C4;">${celular}</span><br>` : "";
+
+    // OFICINA
+    let oficinaInput = document.getElementById("oficina").value.trim();
+    let oficina = oficinaInput.length > 0 ? formatearTelefono(oficinaInput) : "";
+    let oficinaLine = oficina.length > 0 ? `Oficina: <span style="color:#4472C4;">${oficina}</span><br>` : "";
+
+
+
+    let firma = `
+<table cellpadding="0" cellspacing="0" style="font-family: Verdana, sans-serif; font-size: 9pt; color: #000000;">
+  <tr>
+    <td colspan="2" style="padding-bottom:8px;">
+      <span style="font-size:10pt; font-weight:bold; color:#4472C4;">${nombre}</span><br>
+      <span style="font-size:9pt; font-weight:bold; color:#F58220;">${puesto}</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding-bottom:8px;">
+      Correo: <span style="color:#4472C4;">${correo}</span><br>
+	  ${celularLine}
+      ${oficinaLine}
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding-bottom:8px;">
+	 <span style="padding-bottom:8px; font-weight:bold;">Imporfil, a RelaDyne Company</span><br>
+      ${calle}<br>
+      ${colonia}<br>
+      ${municipio}, ${estado}, C.P. ${cp}<br><br>
+      <a href="https://imporfil.com/" style="color:#4472C4; text-decoration:none;">www.imporfil.com</a><br>
+      <a href="https://reladyne.com/" style="color:#4472C4; text-decoration:none;">www.RelaDyne.com</a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding-bottom:8px;">
+      <a href="https://www.facebook.com/IMPORFIL"><img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" width="20" style="vertical-align:middle; margin-right:5px;"></a>
+      <a href="https://www.instagram.com/importadoradefiltros/"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" width="20" style="vertical-align:middle; margin-right:5px;"></a>
+      <a href="https://www.linkedin.com/company/imporfil/mycompany/"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" width="20" style="vertical-align:middle; margin-right:5px;"></a>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="padding-bottom:8px;">
+      <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAlgCWAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCABfAQUDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KKKACiiigAooooAKKKKACiiigAooooAKKKyL3xhoOm3Jt7vW9OtZwcGKa7jRvyJzTSctkJtLc16KjguIrqFZYZEmicZV42DKR7EVJSGFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFc34w+I/hb4f2cl14j8Qafo0KLvP2u4VGx6hc5P4CqjGU3yxV2TKSirydkdJRUNndw6haQXVvIJbeZFkjkXoykZBH4GpqkoKKKKACvh7/AIKYeNvEHhCy8FjQ9avtIE0k3mfY5jHvwBjOOtfcNfAf/BVL/jz8C/8AXSf+Qr6DIYxnmNNSV1r+TPFzmTjgaji7PT80J/wTM8d+I/F3irx1FrmuX+rRw2ds8aXk7SBCXcEjPToK6T/gph8S9Y8HaD4L0zQtYutKuru5nnna0lMbMiqoXJHbJNeff8Eqv+Rw+IH/AF42v/oySuW/4KceJF1T436RpSPn+y9JRXTPRpHL5/Iivp/q0KnELjyqyV7W0+H/ADPnfbyhkfNfVu3/AJMcj+yh+0n4n8K/HLw7/wAJB4k1HUdE1CX7BcxXlw0iL5nCtgnghtvPpmv1pvr6DTrCe8uJBHbQRtK8hPAUDJP5V+BstpeafHaXTxSQLODLbykYDhWxuU+zDH4V+iXxf/ak+3fsOaHqEFyB4g8RwDSHwQGVkG2dsemB/wCPVef5V7evRnQVuZ8rt+f5/cTkuY+xo1YVn8K5lf8Ar0Pkj4vftKeNPGnxM8Raxp3ifVLDTri7cWttb3LIiRKcIAAfQV9+f8E8PHupeOPgbL/bGpT6pqFjqM0JluZC8mzgrkmvynTTbptOe+W3kNlHIIWn2/IrkZCk+uK+/P8Agld4hX7P450Nn+cSQ3aLnoCu0/qK78+wdKGWtUopcluny/U48lxVSePTqN+9f/M4b/goN8SvFnhj9oCSw0jxJqemWS6dbuLe1uWjQMQcnA9a8A0r4hfF/V7JrrTdb8V31ohIae2eaRAR1BI4r1v/AIKR/wDJyEv/AGDLb+Rr6C/4J5/ELwr4T+Al1b67r+maXKdTnYxXlwkbbTjBwT0qI1o4LKaNeNFTdkrW7/JlSpSxeZ1aMqrirv8Arc+SPhr+2Z8VvhlrEU3/AAkd3rdlG+JtM1djLG4zyATyp9xX6tfDD4saN8Tvhfpnje1lW1025tTcTea3/HuVz5isf9kg/lX5GftVeIvDXir49eK9T8JGF9FmnGyW3XbHI4UB3UehbJr3LR/F2reA/wDgnDOsUrxDXdaksICCQVhZyZMexKEfiawzbLaOLo0KtOHJObin03XXzRtlmPq4arWpTnzxim/u7epmftR/t3eJPiLrV9oPgi/m0HwnCzRfardtlxfYOCxbqqHsBXz/AKZ8KfiH4xszq1n4a17VbcjeLvyJH3D1DHk/hXsn7A3wN0z4v/FW4vNdtlvNF0CFbl7V/uSyk4jDDuvBOPav1jt7eK0gSGCJIYYxtSONQqqPQAdKjGZnQyKSweEpJtLVv+tWVhcvrZynisTUaT2S/rRH4q/DP4+/Ef4A+JM6dqd/beS4Fzo2pl2ikA6qyNyp9xjFfrB+z38eNG/aC+H9v4h0wfZrpD5N9YM2WtpgOV9weoPcV4z/AMFAvgNo/jP4Vah40tbOK28RaGone6jUKZ4M4ZX/AL2M5Br5n/4Jp+OLrQvjldeHxI32DW9PkZ4yeBJFgqceuCR+Fc2Mjh86y+WOpQ5akN/19dNUdGFlXyrGxwdSXNCW39fmen/8FLvHfiTwh4q8GRaHrt/pMUtnK0iWc7Rhzvxk4618jaD49+L/AImiuZtG1vxVqqWwBmaylll8vPTdtzivpz/gqh/yN3gf/rxm/wDRlV/+CbfxJ8MeALTxz/wkmvWOirM0Dxi8mCeYAGztB64r0MFOOGyaGIjSU5Lpbf3rHDioyxGbSoyqOMX5+R4H4H/a2+LXw51uK5h8V6hfJC/77TtUcyxSY6qytyD2z1Ffq/8AA34tWHxw+GWkeLLCM232yMrPb5yYZl4dfwPQ+lfkz+1h418L/EH47+I9c8IRouiTmNVljTYs0ioA8gHozAn3r9Af+Ccvhu+0L9ni3ubxGjTUr2W6gRxg+XkAH6HBNcXEGGoSwNPF+z5Ju2m262fodmSYitHFzw3PzwV9fR7/ADM34v8AxF+JHw08Y3GnNrjtYSky2cxhX54z2+o6VxH/AA0X8Qf+g6f+/K19U/G/4ZRfEvwdNBGgGqWoM1pJjnd3X6GvhK4tpbO4lgnjaKaJijowwVI6iv5Wz6OOyzFPkrS9nLVe8/mt+n5H9a8MPLM3wa9ph4e0hpL3Vr2e3X87nuvwo/aV1+Lxja2/ijUBd6TdkQs5QL5Lk/K2R2zwa+u1YOoZSGUjII6EV+ZRXIwRX2L+zF8Vj4t8PHw/qU27VtNQCNnPM0PY+5HQ16/DGdTqTeDxUm29Ytv71+qPD4x4ep0aax+DgopaSSVl5Oy+5/LzPGP+CmnjTX/B/h/wE2haze6Q1xd3QlNnMYzIAkeAcdcZP518IWfxY+JWpsyWninxFdsoyywXMjkD1OK+1v8Agqv/AMi58O/+vy8/9Fx188/sY/tA+FPgB4i8SXviqxu76DUbaKGAWkCylWViTkHp1r+ocoSp5RGrCkpyV9Or94/lrM255o6UqnJF217aGl+yh41+I2o/tCeDrbVdX8RT2ElywmjunlMbLtP3geMV3P8AwUT+I/irwt8crKy0fxFqWl2f9lRP5FpcNGm4s2Tgd6+ovgf+2D8PPjf44Xw74d0i/tNSED3Cy3Vmka7V68gnnmvjv/gpj/ycDZf9geH/ANCauTCVHis3iq1Dkag9P12OnE01hssl7Ktz3ktf0PpH/gnZ4t1rxT8GPEVxrGq3eqXEWoSqk13KZGUbM4BNfmt8RNSvNW8W67LfXc97KLucB7iVpCPnPTJ4r9FP+CZ3/JD/ABP/ANhGT/0Cvzi8a/8AI06//wBfk/8A6Ga9HKoxjmWMSWzX6nDmMpSwOFbff9D90vAf/Ij+Hv8AsHW//ota3awvAZz4H8Pf9g63/wDRa1u1+UVPjfqfpEPgXoFFFFZlhXwH/wAFUv8Ajz8C/wDXSf8AkK+/K+Av+CqTAWngUE/xz/yFfRcP/wDIypfP8meHnf8AuFT5fmjC/wCCVX/I3/ED/rxtf/Rj18+/tkeKG8WftJ+OLotvS3vPsUbA5BSIBB/Kve/+CXF9Fp/iH4kXUzbYYNNt5Xb0VXkJ/QV8b+LNRm8UeNdXu93nXF/fysp6li0hx/MV+gYWmnnOJqvpGK+9L/I+JxFS2VUKa6tv7n/wT6u+OvwO8v8AYr+FXi+0g/0zSbYG9Krz5Nwd+T7K5/8AHq+QptXvZ9Lt9OkuZJLG2kaWG3JyqM2NxA9TgV+28vwy0/xF8Do/A91GDY3GjJYkMPunywA31DYP4V+UPwU+A+o+MP2jbPwDfW7j+zdQYakCDhIoWy2frgD8a4slzSFSjW9s/gbl8nd/5/edebZdOFWl7JfGlH5qyPafiF8Dj4A/YD0a9uIdmqXeqRavdHHIEgKop+i4/OsX/gmn4k/sj4+Xemk/LqmmSJj3jYN/Wvtf9tPwymq/sv8AiyzgTbHZ20cyKo+6sbDH6V+bH7HfiM+Hv2kvA06PtFxdm1Y5/hdSP6CufBVpZjlWKc925P8AC6N8XSWBzHDqOySX42PRP+Ckf/JyE3/YMtv5GvKvhl+zD8RPjH4ffWvCuhpqOmpM0Ble4WP5x1GDXqf/AAUjcf8ADSMwz00y2/8AQTX1J/wTL/5IFeHt/a0+D+VdUsdUy/JqNakk3aK1OeODp43NatKpe13sfNvw2/4JufEXxHq0I8UyWnhnSlcecyyiaZl7hAOM/Wvpb9s74J2ulfsiR6D4ZtCll4WkgukiUZZokyrsfU/PuJ+tfW1V9QsLfVbG4sruFLi1uI2ilikGVdGGCCPQg18VVzzFYjEU61V6Qd0loj6ynk+GoUZ0qa1krXe5+Uv/AAT/APjdpfwl+K11p+uXK2ekeIIVtzdPwkcynKFj2ByRn3r9X4Zo7mJJYpFlicbldCCrD1BHWvyt/ai/YZ8S/DDWr3W/B1hPr3hGZzKsVsu+eyB52so5ZR2IrxDSPjh8R/Bdg2kWfivWdMt1Gz7K8zqUHoA3Ir6rG5XRz2SxmEqpNrVP+tGfOYTMKuTxeFxVNtLZo/Rb/goD8c9H8E/CTUfCEF3FceIdeUQfZEYM0UOcs7/3emBXy9/wTV8E3Wu/HW415Y2+waLp8gkkxx5kuAoz64BNeN/Dv4J/Ef8AaC8TAadp2oahLO4Nxq+ohxFGD/E0jdfoK/WD9nP4B6R+z38P4NB09hdX0p8+/vyuGuJiOT7KOgHpXPjJYfJcvlgac+apPf57+mmiN8Kq+a46OLnHlhDY+OP+CqH/ACN/gf8A68Zv/RlfG+neANU1nwTq3im1gFxpuk3EUF4VGWh8wHY5/wBkkEZ+lfYv/BVFwPGngdT/ANA+Y/8AkSrH/BNTwzp3jXwt8UND1a3W70zUI4LeeJhwysrfqOo9wK9TBYt4HJaeISvb8uaz/A87F4ZYzNp0W7X/AD5T58/ZI8HfD3x78WLTRPiDNcRW1zgWKpJshmmB/wBXIfRh096/Y3StKtND0220+wt47Syto1ihgiXaqIBgACvxP+PXwh1X4AfFLUPD1y0ixwSefp18Mr50JOUdT6jofQiv0X/Yg/ami+NfhAeHtduUHjHSIgshY4N5COBKPUjo3515fEeGniaUMdRk5U7bdvP/ADPRyGvDD1JYOrHlnffv5f5Hv3xG8c2Xw68I3+t3pBECYiizzJIfuqPxr82PEeqan4o16/1a7ncXF5M0zhDgDJ6AV73+0l4+vfH/AIqOm2VvdNoumMUTbC+JZP4n6fgK8d/sa7/58br/AL8P/hX8rcR5o8difY0/gh+L6v8ARH9Z8K5IsBhfb1napU19F0X6v/gHK/Zbr/n4l/76NfVv7G3wjuYZZfHGqPNtZWg0+J2OGU/fkI9OMCvK/hX8Kb34ieMLXTHtp7exU+bdzPEVCxg8gEjqelffemabbaPp9vY2cSwWtvGI441GAqgYAru4Xyx16v1yqvdjt5vv8vz9DzOMc1WFpfUKMven8XlHt8/y9T4Y/wCCrH/Iu/Dr/r8vP/RcdfLn7LX7NLftK67renLro0MaZbpP5nk+aZNzEYxnjpX1D/wVZfHh/wCHQP8Az93n/oEdcb/wSxkH/Cf+NVHOdPh/9DNf1Lg69TDZB7ak7SV7f+BH8rYujDEZ2qdRXi7f+knuX7Nn7C8nwA+JA8Ut4s/thRavbi2Fr5f3sc5z7V8yf8FMf+TgbL/sDw/+hNX6nV+WH/BTIgftA2WeP+JPD/6E1eTkWLrY3NFVru75Wj084w1LC5c6dFWV0e/f8Ezv+SG+Jv8AsIy/+gV+cXjf/kade/6/J/8A0M1+jn/BM05+BvibH/QSl5/4BX5x+MnVvFuuAkY+2zA/99mvpMq/5GeM9V+p4GY/7hhfR/ofuh4CGPA3h3P/AEDrf/0Wtb1firZftbfFrTrOC1t/HWoxW8KLHGgYYVQMAdPSv0w/Yh8c678Rf2e9H1vxHqUurapLdXSPdT/eZVmZVH4AAV8TmeSVsvp+3qSTTdtL9bs+ty/NqWNn7GEWmlfX5HvVFFFfMn0AVnat4d0rXhGNT0201AR/c+1QLJt+m4HFaNFNNp3Qmk9GZem+FdF0dZ1sNJsbITrslFvbpH5i+jYHI571TT4e+FkkV18N6SrqQwYWUYIPr92ugoqueW9yeSO1hAAAABgCqNvoOmWeozahBp1rDfzDEt1HCqyP9WAyav0VKbWxVkyK6tIL63kt7mGO4gkG14pVDKw9CD1rGtfAXhqyuI57fw9pcE8Z3JJHZxqyn1BA4Nb1FNSlHRMTinq0ZGp+EdC1q5+06ho1hfXGAvm3NskjYHQZIzVvTNHsNEtvs+nWVvYwZLeVbRLGuT1OAAKuUUOUmrN6BypO9goooqShOtYd54F8N6jcG4utA0y5nJyZJbONmJ+pFbtFUpOOzsS4qW6IbSyt9PgWG1gitoV4WOJAqj6AVNRRU7lGZq3hnSNeeN9T0uy1B4xhGurdJCo9BuBxTtJ8O6VoIkGmabaaeJMFxawLHu+u0DNaNFVzSty30J5Ve9tTM1bwxo+vSRyanpVlqDxjajXVukhUegLA4qLTPB2g6Lc/adP0XT7G4wV822tUjbHpkDNbFFPnla19A5Y3vbUg+xW//PCL/vgUfYbb/n3i/wC+BU9FZcq7GnM+5HHbxQkmONEJ67VAqSiiq2Fe5n6t4f0vX1jXU9OtNRWIkoLqBZApPXG4HFM0nwxo+gySPpmlWWnvIMO1rbpGWHodoGa06KrmlblvoRyq97ahWTqnhPRNcuBPqOj2F/OF2iW5tkkYD0yQeK1qKSbi7pjaT0ZR0vQ9O0O3aDTrC2sIGO5o7aFY1J9SABWY/wAPPCsrs7+G9JZ2OWZrKMkn1+7XQ0VSnJO6ZLhFqzRzn/CuPCf/AELOkf8AgDF/8TWzpul2ej2i2thaQWVspJWG3jEaAnk4A4q1RQ5ylo2NQjHZBRRRUFBRRXE/GP4jaN8LvAN/rOtieW2crZxW1p/rriaU7Eij/wBpieD260AbNj478N6prUmkWev6ZdarHnfZQ3cbzLjrlAc8V57+1b8Y7r4G/BfVvEunGIav5kVrYiddyea7dx3G0NXzVF4Vhm/aG+D+mWXwsT4ba2l5cavPeQXaS3FxZpEVIlK8klyM7s9aT/gpj4kuPEGt/D34dae5NzfT/anjU5DM7iKIH6Hcfxr1spw8cVjKdOa92936LVnm5lXeGws5w32Xq9DE1P8Aah/aT0D4W6f8R77TtC/4RW72NHKYFDsrHCkrnIBx2r69+BHxqj+KPwX0XxxrcVv4fN0jeeJZQsSsrFSwZv4TjIzXwB8c/D/iLwn8bPBfwz+IfiG5vPh//oQgtLH9xbxwkCPhf9lsgsfc1seNtU1X4v8A7R7fD7w94f8A7b8E+C1a1s/Ccd99jhuEiwrOzfxEk59cV9XicvoYqlFwjGN7z5o6Ll2S1au797JHzlDG1sPUkpOUrWjZ6vm76J2X3n6Qab400HWtOur7TNXstTtbZWeWSzuElCADJztJ7CvnH9lH9o7xX8bPFHj/AFDXLjT7Xwbo03k2kgiERGWJBdz/ALOK+cda8C+OvgJfeP8Ax6PC0Xw+8K32kvYDSLW/E6LLKAq4APrk0vwX8VaHoHwa0D4YxeEb/wAfeLfE0z6xd6PZ3X2VAn8CzP3AHOPeuKOVUoUKjpvn5uVJ6e71l1tout7HXLMakq0FNctr3WuvSPS+vofo1onjfw74lllj0nXdO1OSIbnS0uklKj1IUnFeH2fxf+IHjLxNrNp4XtbS4trOQlVkjGVTcQMk9TxXx58HtPbRP2nPFeoaZ4dbwNb6Dps63ekW9356RyuBGE3jggksfwr7R/Zq/s7w14L1TXdSvLe1N3cHLyyAEInH88mvy7iijKhmmGy2hXcYuDqTaaTS6K+q3P0nhupGrlmIzGtQU5KShBNNpvdu2j2DwX8e9dt/GieHPGOnw2ssknlGVBsaJu2R0Kn1r3S01G1v1dra5iuFQ4YxOGAPvivmLTLM/G3423mq2sTf2NbfemIwCqLtT8ScHFYvgbxpc+F/CfiPRtN3vrmq3wtbWNeWUHIZvyr4vL8/r4O8cTJ1KTlNQm92opWW2t27LzPr8wyGjjLSw0VTqqMHOC2Tk3d76WSu/I+rx4i0onA1K0Jztx5y9fTrUia3p8l8bJb63a7H/LASrv8AyzmvlmXwDFb/ABE8KeDIpGeW3QXOoTKeTK3zNz7DAFJ4v0yw8KfGmWXRVm26XCbyffIXLSBc4JPY5FelLiTE04OpUoJJTUH72t2ru2mvL1POjw5hqklCnXbbg5r3eidlfXTm6ep9T6hren6SVF7fW9oW6CaVUz+ZrnvEXiDVoNR04aTCl1ZzMNzoN4cEjPI6cZr558FaTrPxCt9W1y98PDxVNeO8aTz3mwW5/wBlO2K9p+AvhbXPCPhGax1sFH+0M0MXmb9iH0NduCzbEZrOMY0nCnJNqSvpZ6Xukve8mzix2U0MrhKUqqnUi0nHTW61tZt+75pGX8Y/2h7b4ba1YeFtC0O88aeO9QjMtvoOnEBo4/8AnrM54jX69an+DnxH+IHiq91i28feAh4LS0iSa3u1vFmhnDFty57FcAnPrXmn7G11a+LfGHxf8XX7JL4pufEUtlMshzLbW0QAiiAPITvj3rf/AGjL+Xx149+Hnwti1CSy0bxHNcXesS2suySe1gUHyFcdNzH5sdhX2J8ge1aD408P+KpbiLRtb0/VpLc4mSyuklMZ/wBoKTiotR8f+GdIOL7xDpdmfONtie8jQ+aOqcn73t1r5h17wf4O+EX7UPhVvAunW3h9NK8P3+o+JYtP+WI2ar+780DjcWBIJ5IryrVvhX4euf2RNW8eeIdGTU/G3jLUftVlPO5Z4Zbi4xEYRn5TsweOuKAsffTeMNBXXI9GOtaeNXkXelh9pTz2X1CZz+lJq/jTw/oC3B1PW9O08W+3zvtV0kfl56bsnjNfI3jL4I+GfCfxX+AuiaPZeX4sW5bUtQ1uR2a5nghi/eCRyckFjwOnFXfhf8OvBXxcvfix8UvH2nxano9xqlzb20eoOTbw2tuuwuFzjJwcGmFj60PiLShow1c6laDSinmfbjOvk7f72/OMfjUWheLNE8UWMl7o+r2OqWkZKvPZ3CSopHUEqSBXxD8G9YsbX4JeF/h5J4Nu/H9/qt1d65p3h+SfyobfTfOYQPOzcBcH5VPWs/wnrSeA/DP7R3ivQ/DaeDbVIoPD9v4dtpg0S6gU2O0ZX5SS0o5HpSuFj7l/4T/wx9ts7P8A4SHS/td6M20H2yPfMP8AYGct+Faltq1le3dza293BPc2xAnhjkDPET0DAcj8a+IPiZ+zn4U8B+B/gn4e0zTVbx3qGvaeq6u7MbopEPNuMMTwoH8I4rX8T+N774a/Hv426boS+b4p8RxaRa6JbDkvcTRMrS4/uoAWJ9qAsfZGn6tZassrWV5BeLFIYpDBIHCOOqnHQj0q3XFfBz4ZWXwj+H2l+HLRjNJAnmXV03LXFw3zSSMe5LE12tMQUUUUAFFFFABRRRQAVw3xj+EWjfGzwa3h3Wpbq2gFxFdw3NlJ5c0E0Zyjq3Yg13NFAHk/w/8A2cfD/gHxpD4tGpatrniKOwOnm/1a6MztGW3E89CcDp6Vn+Lf2VvC3jb42ab8TNVvNQn1XTzEYLLzR9mHlrhflx6/N9a9ooralWqUG3SlZtW+TMqlKFZJVFe2p4z8fv2WPCf7RF5o13r899ZXelh0insJAjMrEHaxI6AjI+tcX4y/YL8G+J/FEPiOx1vW/D+uCNFmvdPuNrzOFwZD6MQOSOtfTVFdVLMMVRioU6jSV7fPc56mCw9WTlOCbf6HgHiD9jXwv4n+GEXgrUte1+7tjefbbnUJrwvc3LgYAdj/AAjsBWfq/wCw14NvPG+leJ9M1jWvD99ZQRW7/wBm3Hl+eqKF5I5G4AZx1r6PopxzHFw+Go+v47hLBYeW8F0/DY8A8H/sYeDfBZ8RtZ6jq00uuzJLdTXFxvfCkkKDjpliea2oP2WvC0Tr5l3qM0YOTE8/yn8K9lor57H5fhc0r/WcbTU52Su+y2R72BzHF5bR+r4Oo4Qu3Zd3uzzvXda0f4L6LaWGkaDcXTT7hHb2MW4kgfedq474G/CW6stYufFuvWYtLuZ2e0s26xbjksfQ84Fe6FVYgkAkdyKWuGeUU6uJp1qj9yn8EUkkn38/Lojshm1SlhqlGmvfqfHJtttdvLz6s43SfhfpmleOr7xWJrifUrpSpErZRAf7o7dKraf8HtEs/EWtaxM897Pq0bRTpcNlArdQB2ru6K7f7Owmn7taNy+b3fqzj/tHF6v2j1Sj8lsvRHkVl+zhpGl3TtY61q1lbO25raCfarD0+lerWdnFYWkVtAuyKJQqjOeBU9FPCZfhcDf6tBRv2JxWPxWNt9Ym5W7ngHj39jHwh4y8cX3iuw1fXvCWq6id1+2g3xt1um/vOB3re8a/su+FPGPg/wAL6Gt1qmkT+Gv+QXq9hdsl7ASMMfM6nd3zXsNFegcB5D4e/Zj8KeHfA/iTw/FPqN3c+I4jDqut3dwZb66UjGGkPbHGBxzW3r3wN8N+INA8HaLOs8emeFrmC7sbeJ8KXhXbHv8AUD0r0OigDx/4yeCINGPiP4l6faXureLLTw/Npun2MR3DLZxsT+8SRz6CvLvhX+xBoi+BfDyeI9a8RvBNDHd6n4ba/ZbGa4b52Dxj3PIzg4r6xooHc8f8cfsyeHPGPjXSfE9tqWreG7+wtF09l0W58hJ7ZTxEwHYDjiorD9lXwZp3gS08JRfbTpUGur4gbfNukmuFkMih26soPb2Fey0UCPPfiN4N0Ia/pPxC1eO9u7jwnb3Elpa2oLjMigOwQfefAwK8w+CfgS6+JPxk1342+ItBl0Np4E03QNPvU23Eduow08i9nfsOwr6QIz1paACiiigAooooAKKKKACiiigD/9k=" alt="Imporfil Logo" style="height:50px;">
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" style="font-family: Verdana, sans-serif; font-size: 9pt; color:#1F497D;">
+	 <p><strong>Aviso de Privacidad</strong><br>
+      Este correo electrónico, y cualquier archivo adjunto, puede que contengan información confidencial y privilegiada de cualquiera de las empresas del grupo Lucalza. 
+      Cualquier divulgación, copia o distribución de este correo electrónico está estrictamente prohibida y nos reservamos el derecho de emprender acciones legales en contra de cualquier persona que haga un uso indebido de la información aquí contenida. 
+      Si usted no es el destinatario indicado, por favor notifique al remitente y borre este correo electrónico y los archivos adjuntos de inmediato.
+      </p>
+      <p><strong>Privacy Notice</strong><br>
+      This e-mail, and any attachments, may contain confidential & privileged information of any Lucalza Group companies. 
+      The disclosure, copy or distribution of this e-mail is strictly prohibited, and we reserve the right to take legal action against any individual who makes improper use of the information contained within. 
+      If you are not the intended addressee, please notify the sender and delete this e-mail and any attachments immediately.</p>
+    </td>
+  </tr>
+</table>
+    `;
+
+    document.getElementById("firma-preview").innerHTML = firma;
+}
+
+function copiarFirma() {
+    let firma = document.getElementById("firma-preview");
+    let range = document.createRange();
+    range.selectNode(firma);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand("copy");
+    alert("Firma copiada. Ahora pégala en Outlook.");
+}
+
+function formatearTelefono(numero) {
+    numero = numero.replace(/\D/g, ""); // Quitar todo lo que no sea número
+    if (numero.length <= 3) return `(${numero}`;
+    if (numero.length <= 6) return `(${numero.substring(0,3)}) ${numero.substring(3)}`;
+    return `(${numero.substring(0,3)}) ${numero.substring(3,6)}-${numero.substring(6,10)}`;
+}
+
+</script>
+</body>
+</html>
